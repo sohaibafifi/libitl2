@@ -3,11 +3,13 @@
 
 cmake_minimum_required(VERSION 2.6)
 PROJECT(itl)
-add_library(libitl STATIC hijri.c astro.c prayer.c umm_alqura.c)
+add_library(itl STATIC hijri/hijri.c prayertime/astro.c prayertime/prayer.c hijri/umm_alqura.c)
 
 include_directories ("${PROJECT_SOURCE_DIR}")
 
-add_executable(demo_hijri demo_hijri.c)
-add_executable(demo_prayer demo_prayer.c)
-target_link_libraries(demo_hijri libitl -lm)
-target_link_libraries(demo_prayer libitl -lm)
+add_executable(demo_hijri EXCLUDE_FROM_ALL examples/demo_hijri.c )
+add_executable(demo_prayer EXCLUDE_FROM_ALL  examples/demo_prayer.c)
+target_link_libraries(demo_hijri itl -lm)
+target_link_libraries(demo_prayer itl -lm)
+
+add_custom_target(samples DEPENDS demo_prayer demo_hijri)

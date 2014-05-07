@@ -11,7 +11,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "prayer.h"
+#include "../prayertime/prayer.h"
 
 
 int main()

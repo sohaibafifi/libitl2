@@ -12,7 +12,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>               /* for time_t */
-#include "hijri.h"
+#include "../hijri/hijri.h"
 
 /* Various interesting/relevant sites
 
