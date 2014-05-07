@@ -19,6 +19,10 @@
 
 #define PROG_NAME       "hijri";
 
+/* Declare local functions */
+int g_absolute(int day, int month, int year);
+int g_numdays(int month, int year);
+
 /* Various Islamic/Hijri Important Events */
 sEvent h_events_table[] =
 {
@@ -267,7 +271,6 @@ h_date(sDate *cdate,
    int abs_date;
    int pre_epoch = 0;
    int error_fill;
-   int days_before;
 
    /* Account for Pre-Epoch date correction, year 0 entry */
    if (year < 0)

@@ -28,6 +28,17 @@ make
 ./demo_prayer # To run the prayer demo program
 ```
 
+Static Analysis
+---------------
+We are using `ccc-analyzer` from Clang to perform the static analysis.
+To use `ccc-analyzer`, you need to perform the follwoing:
+```shell
+cmake -DCMAKE_C_COMPILER=/usr/share/clang/scan-build/ccc-analyzer ..
+/usr/share/clang/scan-build/scan-build make
+```
+It is important to note that Clang might be installed on different directories 
+on different machines.
+
 LICENSE
 -------
 The original `libitl` uses LGPL license shown in [LICENSE](LICENSE). `libitl2`

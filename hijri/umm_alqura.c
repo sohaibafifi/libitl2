@@ -149,7 +149,7 @@ int HMonthLength(int yh, int mh)
 
    if(yh<HStartYear || yh>HEndYear)
    {
-      flag = 0;
+      //flag = 0;
       Dy = 0;
    }
    else
@@ -184,7 +184,7 @@ int DayinYear(int yh, int mh, int dh)
 
    if(yh<HStartYear || yh>HEndYear)
    {
-      flag = 0;
+      //flag = 0;
       DL = 0;
    }
    else
@@ -222,7 +222,7 @@ int HYearLength(int yh)
 
    if(yh<HStartYear || yh>HEndYear)
    {
-      flag = 0;
+      //flag = 0;
       YL = 0;
    }
    else
@@ -268,7 +268,6 @@ int G2H(sDate *mydate, int dg, int mg, int yg)
    double GJD, HJD;
    sDate tmpdate;
    sDate tmpdate2;
-   int error_fill;
 
    GJD = GCalendarToJD(yg, mg, dg + 0.5);  /* find JD of Gdate */
 
@@ -317,7 +316,7 @@ int G2H(sDate *mydate, int dg, int mg, int yg)
    mydate->day = tmpdate.day;
 
    /* Fill-in the structure with various nicities a user might need */
-   error_fill = fill_datestruct(mydate, mydate->weekday, mg, mydate->month,
+   fill_datestruct(mydate, mydate->weekday, mg, mydate->month,
 				g_day, g_day_short, g_month, g_month_short,
 				h_day, h_day_short, h_month, h_month_short,
 				NULL, 0);
@@ -339,7 +338,6 @@ int G2H(sDate *mydate, int dg, int mg, int yg)
 int H2G(sDate *mydate, int dh, int mh, int yh)
 {
    int found, yh1, mh1;
-   int error_fill;
    sDate tmpdate;
 
    /* make sure values are within the allowed values */
@@ -374,7 +372,7 @@ int H2G(sDate *mydate, int dh, int mh, int yh)
    }
 
    /* Fill-in the structure with various nicities a user might need */
-   error_fill = fill_datestruct(mydate, mydate->weekday, mh, mydate->month,
+   fill_datestruct(mydate, mydate->weekday, mh, mydate->month,
 				h_day, h_day_short, h_month, h_month_short,
 				g_day, g_day_short, g_month, g_month_short,
 				NULL, 0);
@@ -632,7 +630,6 @@ void JDToHCalendar(double JD, sDate *mydate)
 void JDToHACalendar(double JD, int *yh, int *mh, int *dh)
 {
    int df;
-   long J;
    double HJD;
    sDate tmpdate;
 

@@ -20,7 +20,7 @@ int main()
     int i, deg, min;
     double sec;
     const char symb =   (char)0xB0;
-    char cityName[] ="Abu Dhabi";
+    char cityName[] ="Leiden";
     double qibla;
 
     Location loc;
@@ -33,14 +33,14 @@ int main()
     Prayer nextFajr;
 
     /* fill the Date structure */
-    date.day = 30;
-    date.month = 10;
-    date.year = 1982;
+    date.day = 7;
+    date.month = 5;
+    date.year = 2014;
     /* fill the location info. structure */
-    loc.degreeLat = 24.4833;
-    loc.degreeLong = 54.35;
-    loc.gmtDiff = 4;
-    loc.dst = 0;
+    loc.degreeLat = 52.17138;
+    loc.degreeLong = 4.48571;
+    loc.gmtDiff = 1;
+    loc.dst = 1;
     loc.seaLevel = 0;
     loc.pressure = 1010;
     loc.temperature= 10;
@@ -48,7 +48,7 @@ int main()
 
     /* auto fill the method structure. Have a look at prayer.h for a
      * list of supported methods */
-    getMethod(7, &conf);
+    getMethod(5, &conf);
     conf.round = 0;
 
     /* Call the main function to fill the Prayer times array of

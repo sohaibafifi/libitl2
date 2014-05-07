@@ -158,8 +158,8 @@ static void getPrayerTimesByDay ( const Location* loc, const Method* conf,
                                          conf->extreme == HALF_INVALID) &&
                                         (invalid == 0)))
     {
-        double exdecPrev, exdecNext, degnLat;
-        double exZu=99, exFj=99, exIs=99, exAr=99, exIm=99, exSh=99, exMg=99;
+        double exdecPrev, exdecNext;
+        double exZu=99, exFj=99, exIs=99, exAr=99, exSh=99, exMg=99;
         double portion = 0;
         double nGoodDay = 0;
         int exinterval = 0;
@@ -178,7 +178,6 @@ static void getPrayerTimesByDay ( const Location* loc, const Method* conf,
              * angle==0 . Only the if-invalid methods would work */
             exLoc.degreeLat = conf->nearestLat;
             exFj = getFajIsh(conf->nearestLat, dec, conf->fajrAng);
-            exIm = getFajIsh(conf->nearestLat, dec, conf->imsaakAng);
             exSh = getSunrise(&exLoc, &tAstro);
             exAr = getAssr(conf->nearestLat, dec, conf->mathhab);
             exMg = getSunset(&exLoc, &tAstro);

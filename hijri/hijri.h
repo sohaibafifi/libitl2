@@ -51,4 +51,10 @@ int g_date(sDate *cdate, int day, int month, int year);
 int G2H(sDate *cdate, int yg, int mg, int dg);
 int H2G(sDate *cdate, int yh, int mh, int dh);
 
+int fill_datestruct(sDate *fdate, int weekday, int frm_month_num,
+		int to_month_num, char *frm_day[], char *frm_day_short[],
+		char *frm_month[], char *frm_month_short[],	char *to_day[],
+		char *to_day_short[], char *to_month[], char *to_month_short[],
+		sEvent *farr_table, int farr_size);
+
 #endif  /* _HIJRI_H */
