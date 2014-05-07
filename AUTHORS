@@ -1,0 +1,16 @@
+Authors of the original libitl:
+
+Nadim Shaikli:
+- Contributed brute force calculation method for hijri
+
+Fayez Alhargan: 
+- Author of Umm Alqura code of hijri. For contact info, see the file:
+  umm_alqura.c
+
+Thamer Mahmoud:
+- Contributed the prayertime backend code
+- Shared/Static library build process
+- Initial Debian packaging
+
+-Samy Al Bahra:
+- Autoconf generation and support files
