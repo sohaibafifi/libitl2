@@ -30,77 +30,77 @@
 /*
  Sample demo file - show basics (very preliminary calls)
  */
-int main(void) 
+int main(void)
 {
-   /* hijri code specifics */
-   int day, month, year;
-   sDate mydate;
-   sDate mydate2;
-   int i;
-   int error_code = 0;
+    /* hijri code specifics */
+    int day, month, year;
+    sDate mydate;
+    sDate mydate2;
+    int i;
+    int error_code = 0;
 
-   time_t mytime;
-   struct tm *t_ptr;
+    time_t mytime;
+    struct tm *t_ptr;
 
-   /* Get current dte structure */
-   time(&mytime);
+    /* Get current dte structure */
+    time(&mytime);
 
-   t_ptr = localtime(&mytime);
+    t_ptr = localtime(&mytime);
 
-   /* Set current time values */
-   day   = t_ptr->tm_mday;
-   month = t_ptr->tm_mon  + 1;
-   year	 = t_ptr->tm_year + 1900;
+    /* Set current time values */
+    day   = t_ptr->tm_mday;
+    month = t_ptr->tm_mon  + 1;
+    year	 = t_ptr->tm_year + 1900;
 
-   // Convert using hijri code from meladi to hijri
-   error_code = h_date(&mydate, day, month, year);
+    // Convert using hijri code from meladi to hijri
+    error_code = h_date(&mydate, day, month, year);
 
-   if (error_code)
-      printf("Got an error from the library (code = %d)", error_code);
-  
-   printf("Current date (dd/mm/yyyy):\n");
-   printf("+ Gregorian Input  - %2d/%2d/%4d\n", day, month, year);
-   printf("                   - %s(%s) - %s(%s) %2d, %4d\n", mydate.frm_dname,
-	  mydate.frm_dname_sh, mydate.frm_mname, mydate.frm_mname_sh,
-	  day, year);
-   printf("+ Hijri/Islamic    - %2d/%2d/%4d\n", mydate.day,
-	  mydate.month, mydate.year);
-   printf("                   - %s(%s) - %s(%s) %2d, %4d A.H\n",
-	  mydate.to_dname, mydate.to_dname_sh,mydate.to_mname,
-	  mydate.to_mname_sh, mydate.day, mydate.year);
+    if (error_code)
+        printf("Got an error from the library (code = %d)", error_code);
 
-   for (i = 0; mydate.event[i] != NULL; i++)
-   {
-      printf("  Day's Event      - %s\n", mydate.event[i]);
-   }
-   free(mydate.event);
+    printf("Current date (dd/mm/yyyy):\n");
+    printf("+ Gregorian Input  - %2d/%2d/%4d\n", day, month, year);
+    printf("                   - %s(%s) - %s(%s) %2d, %4d\n", mydate.frm_dname,
+           mydate.frm_dname_sh, mydate.frm_mname, mydate.frm_mname_sh,
+           day, year);
+    printf("+ Hijri/Islamic    - %2d/%2d/%4d\n", mydate.day,
+           mydate.month, mydate.year);
+    printf("                   - %s(%s) - %s(%s) %2d, %4d A.H\n",
+           mydate.to_dname, mydate.to_dname_sh,mydate.to_mname,
+           mydate.to_mname_sh, mydate.day, mydate.year);
 
-   error_code = g_date(&mydate2, mydate.day, mydate.month, mydate.year);
+    for (i = 0; mydate.event[i] != NULL; i++)
+    {
+        printf("  Day's Event      - %s\n", mydate.event[i]);
+    }
+    free(mydate.event);
 
-   if (error_code)
-      printf("Got an error from the library (code = %d)", error_code);
-  
+    error_code = g_date(&mydate2, mydate.day, mydate.month, mydate.year);
 
-   printf("+ Gregorian Conv.  - %2d/%2d/%4d\n", mydate2.day,
-	  mydate2.month, mydate2.year);
-   printf("                   - %s(%s) - %s(%s) %2d, %4d A.H\n",
-	  mydate2.to_dname, mydate2.to_dname_sh,mydate2.to_mname,
-	  mydate2.to_mname_sh, mydate2.day, mydate2.year);
+    if (error_code)
+        printf("Got an error from the library (code = %d)", error_code);
 
-   printf("\n");
 
-   /* Tests for umm_alqura code */
-   printf("Umm-AlQura results:\n");
+    printf("+ Gregorian Conv.  - %2d/%2d/%4d\n", mydate2.day,
+           mydate2.month, mydate2.year);
+    printf("                   - %s(%s) - %s(%s) %2d, %4d A.H\n",
+           mydate2.to_dname, mydate2.to_dname_sh,mydate2.to_mname,
+           mydate2.to_mname_sh, mydate2.day, mydate2.year);
 
-   G2H(&mydate, day, month, year);
-   printf("G2H (to Hijri)     - %d/%d/%d\n", mydate.day,
-	  mydate.month, mydate.year);
-   printf("                   - day of week is %d\n", mydate.weekday);
+    printf("\n");
 
-   H2G(&mydate2, mydate.day, mydate.month, mydate.year);
-   printf("H2G (to Gregorian) - %d/%d/%d\n", mydate2.day,
-	  mydate2.month, mydate2.year);
-   printf("                   - day of week is %d\n", mydate2.weekday);
+    /* Tests for umm_alqura code */
+    printf("Umm-AlQura results:\n");
 
-   return(0);
+    G2H(&mydate, day, month, year);
+    printf("G2H (to Hijri)     - %d/%d/%d\n", mydate.day,
+           mydate.month, mydate.year);
+    printf("                   - day of week is %d\n", mydate.weekday);
+
+    H2G(&mydate2, mydate.day, mydate.month, mydate.year);
+    printf("H2G (to Gregorian) - %d/%d/%d\n", mydate2.day,
+           mydate2.month, mydate2.year);
+    printf("                   - day of week is %d\n", mydate2.weekday);
+
+    return(0);
 }

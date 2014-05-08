@@ -24,7 +24,8 @@ typedef struct
 } AstroDay ;
 
 enum Type  { SUNRISE,
-             SUNSET };
+             SUNSET
+           };
 
 static void computeAstroDay(double JD, AstroDay* astroday);
 static void computeTopAstro(const Location* loc, const Astro* astro,\
@@ -120,14 +121,14 @@ static double getRiseSet (const Location* loc, const Astro* tastro, int type)
 
     /* Interpolation of 1-day intervals (pp. 24-25) */
     A = tastro->ra[1] + (M * (( tastro->ra[1] - ra0) +
-                             (ra2 - tastro->ra[1] ) +
-                             (( ra2 - tastro->ra[1] ) -
-                              ( tastro->ra[1]  -  ra0)) * M) / 2.0 );
+                              (ra2 - tastro->ra[1] ) +
+                              (( ra2 - tastro->ra[1] ) -
+                               ( tastro->ra[1]  -  ra0)) * M) / 2.0 );
 
     B = tastro->dec[1] + (M * ((tastro->dec[1] - tastro->dec[0]) +
-                              (tastro->dec[2] - tastro->dec[1]) +
-                              ((tastro->dec[2] - tastro->dec[1]) -
-                               (tastro->dec[1] - tastro->dec[0])) * M) / 2.0 );
+                               (tastro->dec[2] - tastro->dec[1]) +
+                               ((tastro->dec[2] - tastro->dec[1]) -
+                                (tastro->dec[1] - tastro->dec[0])) * M) / 2.0 );
     rB = DEG_TO_RAD(B);
 
     H = limitAngle180between(sidG + loc->degreeLong - A);
@@ -143,7 +144,7 @@ static double getRiseSet (const Location* loc, const Astro* tastro, int type)
 
     /* (p. 103) */
     delM = (sunAlt - CENTER_OF_SUN_ANGLE) / (360.0 * cos(rB) * cos(rLat)
-                                             * sin(tH));
+            * sin(tH));
 
     return  (M + delM) * 24.0;
 
@@ -156,13 +157,14 @@ double getRefraction(const Location* loc, double sunAlt)
 
     part1 = (loc->pressure/1010.0) * (283/(273 + loc->temperature));
     part2 = 1.02 / (RAD_TO_DEG(tan(DEG_TO_RAD(sunAlt + \
-            (10.3/(sunAlt + 5.11))))) + 0.0019279);
+                                   (10.3/(sunAlt + 5.11))))) + 0.0019279);
 
     return (part1 * part2) / 60.0;
 }
 
 
-const double DT2[]={
+const double DT2[]=
+{
     63.4673, 63.8285, 64.0908, 64.2998, 64.4734, /* 1999-2003 */
     64.5736, 64.7052, 64.8452, 65.1464, 65.4574, /* 2004-2008 */
     65.7768,                                     /* 2009 */
@@ -187,7 +189,8 @@ static double computeDeltaT(double year)
     {
         /* NOTE: The "2017" found below this comment should be changed to
            reflect the last year added to the DT2 table. */
-        if (year >= 1999 && year <= 2017) {
+        if (year >= 1999 && year <= 2017)
+        {
             i = year-1999;
             return DT2[i];
         }
@@ -214,7 +217,8 @@ double getJulianDay(const Date* date, double gmt)
     jdY=date->year;
     jdM=date->month;
 
-    if (date->month <= 2) {
+    if (date->month <= 2)
+    {
         jdY--;
         jdM+=12;
     }
@@ -228,14 +232,15 @@ double getJulianDay(const Date* date, double gmt)
         jdB = 2 - floor(jdY/100.0) + floor((jdY/100.0)/4.0);
 
     JD = floor(365.25 * (jdY + 4716.0)) + floor(30.6001 * (jdM + 1))
-        + (date->day + (-gmt)/24.0) + jdB - 1524.5 ;
+         + (date->day + (-gmt)/24.0) + jdB - 1524.5 ;
 
     JD = JD + (computeDeltaT(date->year) / 86400.0);
     return JD;
 
 }
 
-const double L0[64][3]={
+const double L0[64][3]=
+{
     {175347046, 0, 0},
     {3341656, 4.6692568, 6283.07585},
     {34894, 4.6261, 12566.1517},
@@ -302,7 +307,8 @@ const double L0[64][3]={
     {25, 3.16, 4690.48}
 };
 
-const double L1[][3]={
+const double L1[][3]=
+{
     {628331966747.0, 0, 0},
     {206059, 2.678235, 6283.07585},
     {4303, 2.6351, 12566.1517},
@@ -339,7 +345,8 @@ const double L1[][3]={
     {6, 4.67, 4690.48}
 };
 
-const double L2[][3]={
+const double L2[][3]=
+{
     {52919, 0, 0},
     {8720, 1.0721, 6283.0758},
     {309, 0.867, 12566.152},
@@ -362,7 +369,8 @@ const double L2[][3]={
     {2, 3.75, 0.98}
 };
 
-const double L3[][3]={
+const double L3[][3]=
+{
     {289, 5.844, 6283.076},
     {35, 0, 0},
     {17, 5.49, 12566.15},
@@ -372,17 +380,20 @@ const double L3[][3]={
     {1, 5.97, 242.73}
 };
 
-const double L4[][3]={
+const double L4[][3]=
+{
     {114, 3.142, 0},
     {8, 4.13, 6283.08},
     {1, 3.84, 12566.15}
 };
 
-const double L5[][3]={
+const double L5[][3]=
+{
     {1, 3.14, 0}
 };
 
-const double B0[][3]={
+const double B0[][3]=
+{
 
     {280, 3.199, 84334.662},
     {102, 5.422, 5507.553},
@@ -391,13 +402,15 @@ const double B0[][3]={
     {32, 4, 1577.34}
 };
 
-const double B1[][3]={
+const double B1[][3]=
+{
 
     {9, 3.9, 5507.55},
     {6, 1.73, 5223.69}
 };
 
-const double R0[][3]={
+const double R0[][3]=
+{
     {100013989, 0, 0},
     {1670700, 3.0984635, 6283.07585},
     {13956, 3.05525, 12566.1517},
@@ -440,7 +453,8 @@ const double R0[][3]={
     {26, 4.59, 10447.39}
 };
 
-const double R1[][3]={
+const double R1[][3]=
+{
 
     {103019, 1.10749, 6283.07585},
     {1721, 1.0644, 12566.1517},
@@ -454,7 +468,8 @@ const double R1[][3]={
     {9, 0.27, 5486.78}
 };
 
-const double R2[][3]={
+const double R2[][3]=
+{
 
     {4359, 5.7846, 6283.0758},
     {124, 5.579, 12566.152},
@@ -465,16 +480,19 @@ const double R2[][3]={
 
 };
 
-const double R3[][3]={
+const double R3[][3]=
+{
     {145, 4.273, 6283.076},
     {7, 3.92, 12566.15}
 };
 
-const double R4[][3]={
+const double R4[][3]=
+{
     {4, 2.56, 6283.08}
 };
 
-const double PN[][4]={
+const double PN[][4]=
+{
     {-171996, -174.2, 92025, 8.9},
     {-13187, -1.6, 5736, -3.1},
     {-2274, -0.2, 977, -0.5},
@@ -540,7 +558,8 @@ const double PN[][4]={
     {-3, 0, 0, 0}
 };
 
-const int COEFF[][5]={
+const int COEFF[][5]=
+{
     {0, 0, 0, 0, 1},
     {-2, 0, 0, 2, 2},
     {0, 0, 0, 2, 2},
@@ -654,7 +673,8 @@ void getAstroValuesByDay(double julianDay, const Location* loc, Astro* astro,
         astro->rsum[0] = ad.rsum;
 
 
-    } else if (astro->jd != julianDay)
+    }
+    else if (astro->jd != julianDay)
     {
         /* Compute 3 day values */
         computeAstroDay(julianDay-1, &ad);
@@ -771,13 +791,14 @@ void computeAstroDay(double JD, AstroDay* astroday)
     M = 357.52772 + (35999.050340 * T) -  (0.0001603 * pow (T, 2)) -
         (pow (T, 3)/300000.0);
     M1 = 134.96298 + (477198.867398 * T) +  (0.0086972 * pow (T, 2)) +
-        (pow (T, 3)/56250.0);
+         (pow (T, 3)/56250.0);
     F = 93.27191 + (483202.017538 * T) -  ( 0.0036825 * pow (T, 2)) +
         (pow (T, 3)/327270.0);
     O = 125.04452 - (1934.136261 * T) + (0.0020708 * pow (T, 2)) +
         (pow (T, 3)/450000.0);
     /* Add the terms (pp. 144-6) */
-    for (i=0; i<63; i++) {
+    for (i=0; i<63; i++)
+    {
         PNsum += D  * COEFF[i][0];
         PNsum += M  * COEFF[i][1];
         PNsum += M1 * COEFF[i][2];
@@ -796,8 +817,8 @@ void computeAstroDay(double JD, AstroDay* astroday)
     /* The obliquity of the ecliptic (p. 147, 22.3) */
     U = JM/10.0;
     E0 = 84381.448 - 4680.93 * U - 1.55 * pow(U,2) + 1999.25 * pow(U,3)
-        - 51.38 * pow(U,4)  - 249.67 * pow(U,5) - 39.05 * pow(U,6) + 7.12
-        * pow(U,7) + 27.87 * pow(U,8) + 5.79 * pow(U,9) + 2.45 * pow(U,10);
+         - 51.38 * pow(U,4)  - 249.67 * pow(U,5) - 39.05 * pow(U,6) + 7.12
+         * pow(U,7) + 27.87 * pow(U,8) + 5.79 * pow(U,9) + 2.45 * pow(U,10);
     /* Real/true obliquity (p. 147) */
     E = E0/3600.0 + deltaEps;
     rE = DEG_TO_RAD(E);
@@ -807,7 +828,7 @@ void computeAstroDay(double JD, AstroDay* astroday)
 
     /* Mean Sidereal time (p. 88) */
     V0 = 280.46061837 + 360.98564736629 * ( JD - 2451545) +
-        0.000387933 * pow(JC,2) - pow(JC,3)/ 38710000.0;
+         0.000387933 * pow(JC,2) - pow(JC,3)/ 38710000.0;
     /* Apparent sidereal time */
     V = limitAngle(V0) + deltaPsi * cos(rE);
 
@@ -816,7 +837,7 @@ void computeAstroDay(double JD, AstroDay* astroday)
     RA = limitAngle(RAD_TO_DEG(atan2(RAn,RAd)));
 
     DEC = asin( sin(rGg) * cos(rE) + cos(rGg) * sin(rE) *
-                            sin(rLambda));
+                sin(rLambda));
 
     astroday->ra = RA;
     astroday->dec = DEC;
@@ -845,13 +866,13 @@ void computeTopAstro(const Location* loc, const Astro* astro, Astro* topAstro)
         tU = atan (0.99664719 * tan(rLat));
 
         tpSin = 0.99664719 * sin(tU) + (loc->seaLevel/EARTH_RADIUS) *
-            sin(rLat);
+                sin(rLat);
 
         tpCos = cos(tU) + (loc->seaLevel/EARTH_RADIUS) * cos(rLat);
 
         /* (p. 297, 40.2) */
         tRA0 = (((-tpCos) * sin(SP) * sin(rlHour)) / (cos(astro->dec[i]) -
-                                                      tpCos * sin(SP) * cos(rlHour)));
+                tpCos * sin(SP) * cos(rlHour)));
 
         tRA = astro->ra[i] + RAD_TO_DEG(tRA0);
 

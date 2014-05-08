@@ -64,25 +64,25 @@ int main()
 
     /* Show the results */
     printf ("\nPrayer schedule for: %s on %2d/%2d/%4d\n", cityName,
-	    date.day, date.month, date.year);
+            date.day, date.month, date.year);
 
     decimal2Dms (loc.degreeLat, &deg, &min, &sec);
     printf("\nLatitude\t=  %d%c %2d\' %4.1f\" %c", abs (deg), symb, abs (min),
-	   fabs (sec), (loc.degreeLat>=0) ? 'N' : 'S');
+           fabs (sec), (loc.degreeLat>=0) ? 'N' : 'S');
 
     decimal2Dms (loc.degreeLong, &deg, &min, &sec);
     printf ("\nLongitude\t=  %d%c %d\' %4.1f\" %c", abs (deg), symb, abs (min),
-	    fabs (sec), (loc.degreeLong>=0) ? 'E' : 'W');
+            fabs (sec), (loc.degreeLong>=0) ? 'E' : 'W');
 
     decimal2Dms (qibla, &deg, &min, &sec);
     printf("\nQibla\t\t=  %d%c %d\' %4.1f\" %c of true North\n", abs (deg), symb,
-	   abs (min), fabs (sec), (qibla>=0) ? 'W' : 'E');
+           abs (min), fabs (sec), (qibla>=0) ? 'W' : 'E');
 
     printf ("\n\n");
 
     for (i = 0; i < 6; i++)
-	printf (" %3d:%02d:%02d%c", ptList[i].hour, ptList[i].minute, ptList[i].second,
-		(ptList[i].isExtreme) ? '*' : ' ' );
+        printf (" %3d:%02d:%02d%c", ptList[i].hour, ptList[i].minute, ptList[i].second,
+                (ptList[i].isExtreme) ? '*' : ' ' );
 
     printf ("\n\n");
     printf("Tomorrow's Fajr:\t%3d:%02d\n", nextFajr.hour, nextFajr.minute);

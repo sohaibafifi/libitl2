@@ -33,17 +33,17 @@ extern char *h_month[13];
 extern char *g_month_short[13];
 extern char *h_month_short[13];
 
-int MonthMap[]={19410,
-                19396,19337,19093,13613,13741,15210,18132,19913,19858,19110,
-                18774,12974,13677,13162,15189,19114,14669,13469,14685,12986,
-                13749,17834,15701,19098,14638,12910,13661,15066,18132,18085
-               };
+int MonthMap[]= {19410,
+                 19396,19337,19093,13613,13741,15210,18132,19913,19858,19110,
+                 18774,12974,13677,13162,15189,19114,14669,13469,14685,12986,
+                 13749,17834,15701,19098,14638,12910,13661,15066,18132,18085
+                };
 
 /* makes it circular m[0]=m[12] & m[13]=m[1] */
-short gmonth[14]={31,31,28,31,30,31,30,31,31,30,31,30,31,31};
+short gmonth[14]= {31,31,28,31,30,31,30,31,31,30,31,30,31,31};
 
 /* makes it circular m[0]=m[12] & m[13]=m[1]  */
-short smonth[14]={31,30,30,30,30,30,29,31,31,31,31,31,31,30};
+short smonth[14]= {31,30,30,30,30,30,29,31,31,31,31,31,31,30};
 
 
 /* Various Prototypes */
@@ -80,24 +80,36 @@ int IsValid(int yh, int mh, int dh);
 /****************************************************************************/
 int Hsub2G(sDate *mydate, int mh, int yh)
 {
-   int flag;
-   long JD;
-   double GJD;
+    int flag;
+    long JD;
+    double GJD;
 
-   /* Make sure that the date is within the range of the tables */
-   if(mh < 1) {mh = 12;}
-   if(mh > 12) {mh = 1;}
-   if(yh < HStartYear) {yh = HStartYear;}
-   if(yh > HEndYear)   {yh = HEndYear;}
+    /* Make sure that the date is within the range of the tables */
+    if(mh < 1)
+    {
+        mh = 12;
+    }
+    if(mh > 12)
+    {
+        mh = 1;
+    }
+    if(yh < HStartYear)
+    {
+        yh = HStartYear;
+    }
+    if(yh > HEndYear)
+    {
+        yh = HEndYear;
+    }
 
-   GJD = HCalendarToJDA(yh, mh, 1);
-   JDToGCalendar(GJD, mydate);
-   JD = (long) GJD;
-   mydate->weekday = (JD + 1) % 7;
-   /* NOTE: so when is flag = 0 ? */
-   flag = 1; /* date has been found */
+    GJD = HCalendarToJDA(yh, mh, 1);
+    JDToGCalendar(GJD, mydate);
+    JD = (long) GJD;
+    mydate->weekday = (JD + 1) % 7;
+    /* NOTE: so when is flag = 0 ? */
+    flag = 1; /* date has been found */
 
-   return(flag);
+    return(flag);
 }
 
 /****************************************************************************/
@@ -110,29 +122,29 @@ int Hsub2G(sDate *mydate, int mh, int yh)
 /****************************************************************************/
 double HCalendarToJDA(int yh, int mh, int dh)
 {
-   int flag, Dy, m, b;
-   long JD;
-   double GJD;
+    int flag, Dy, m, b;
+    long JD;
+    double GJD;
 
-   /* estimate JD of the beginning of year */
-   JD = (long) HCalendarToJD(yh, 1, 1);
-   Dy = MonthMap[yh-HStartYear]/4096;  /* Mask 1111000000000000 */
-   GJD = JD - 3 + Dy;   /* correct the JD value from stored tables  */
-   b = MonthMap[yh - HStartYear];
-   b = b - Dy * 4096;
-   for(m=1; m < mh; m++)
-   {
-      flag = b % 2;  /* Mask for the current month */
-      if(flag)
-         Dy = 30;
-      else
-         Dy = 29;
-      GJD = GJD + Dy;   /* Add the months lengths before mh */
-      b = (b - flag) / 2;
-   }
-   GJD = GJD + dh - 1;
+    /* estimate JD of the beginning of year */
+    JD = (long) HCalendarToJD(yh, 1, 1);
+    Dy = MonthMap[yh-HStartYear]/4096;  /* Mask 1111000000000000 */
+    GJD = JD - 3 + Dy;   /* correct the JD value from stored tables  */
+    b = MonthMap[yh - HStartYear];
+    b = b - Dy * 4096;
+    for(m=1; m < mh; m++)
+    {
+        flag = b % 2;  /* Mask for the current month */
+        if(flag)
+            Dy = 30;
+        else
+            Dy = 29;
+        GJD = GJD + Dy;   /* Add the months lengths before mh */
+        b = (b - flag) / 2;
+    }
+    GJD = GJD + dh - 1;
 
-   return(GJD);
+    return(GJD);
 }
 
 /****************************************************************************/
@@ -145,29 +157,29 @@ double HCalendarToJDA(int yh, int mh, int dh)
 /****************************************************************************/
 int HMonthLength(int yh, int mh)
 {
-   int flag, Dy, m, b;
+    int flag, Dy, m, b;
 
-   if(yh<HStartYear || yh>HEndYear)
-   {
-      //flag = 0;
-      Dy = 0;
-   }
-   else
-   {
-      Dy = MonthMap[yh - HStartYear]/4096;  /* Mask 1111000000000000 */
-      b = MonthMap[yh - HStartYear];
-      b = b - Dy * 4096;
-      for(m=1; m <= mh; m++)
-      {
-         flag = b % 2;  /* Mask for the current month */
-         if(flag)
-            Dy = 30;
-         else
-            Dy = 29;
-         b = (b - flag) / 2;
-      }
-   }
-   return(Dy);
+    if(yh<HStartYear || yh>HEndYear)
+    {
+        //flag = 0;
+        Dy = 0;
+    }
+    else
+    {
+        Dy = MonthMap[yh - HStartYear]/4096;  /* Mask 1111000000000000 */
+        b = MonthMap[yh - HStartYear];
+        b = b - Dy * 4096;
+        for(m=1; m <= mh; m++)
+        {
+            flag = b % 2;  /* Mask for the current month */
+            if(flag)
+                Dy = 30;
+            else
+                Dy = 29;
+            b = (b - flag) / 2;
+        }
+    }
+    return(Dy);
 }
 
 /****************************************************************************/
@@ -180,32 +192,32 @@ int HMonthLength(int yh, int mh)
 /****************************************************************************/
 int DayinYear(int yh, int mh, int dh)
 {
-   int flag, Dy, m, b, DL;
+    int flag, Dy, m, b, DL;
 
-   if(yh<HStartYear || yh>HEndYear)
-   {
-      //flag = 0;
-      DL = 0;
-   }
-   else
-   {
-      Dy = MonthMap[yh - HStartYear]/4096;  /* Mask 1111000000000000 */
-      b = MonthMap[yh - HStartYear];
-      b = b - Dy * 4096;
-      DL = 0;
-      for(m = 1; m <= mh; m++)
-      {
-         flag = b % 2;  /* Mask for the current month */
-         if(flag)
-            Dy = 30;
-         else
-            Dy = 29;
-         b = (b - flag) / 2;
-         DL = DL + Dy;
-      }
-      DL = DL + dh;
-   }
-   return(DL);
+    if(yh<HStartYear || yh>HEndYear)
+    {
+        //flag = 0;
+        DL = 0;
+    }
+    else
+    {
+        Dy = MonthMap[yh - HStartYear]/4096;  /* Mask 1111000000000000 */
+        b = MonthMap[yh - HStartYear];
+        b = b - Dy * 4096;
+        DL = 0;
+        for(m = 1; m <= mh; m++)
+        {
+            flag = b % 2;  /* Mask for the current month */
+            if(flag)
+                Dy = 30;
+            else
+                Dy = 29;
+            b = (b - flag) / 2;
+            DL = DL + Dy;
+        }
+        DL = DL + dh;
+    }
+    return(DL);
 }
 
 /****************************************************************************/
@@ -218,36 +230,36 @@ int DayinYear(int yh, int mh, int dh)
 /****************************************************************************/
 int HYearLength(int yh)
 {
-   int flag, Dy, m, b, YL;
+    int flag, Dy, m, b, YL;
 
-   if(yh<HStartYear || yh>HEndYear)
-   {
-      //flag = 0;
-      YL = 0;
-   }
-   else
-   {
-      Dy = MonthMap[yh - HStartYear]/4096;  /* Mask 1111000000000000 */
-      b = MonthMap[yh - HStartYear];
-      b = b - Dy * 4096;
-      flag = b % 2;  /* Mask for the current month */
-      if(flag)
-         YL = 30;
-      else
-         YL = 29;
+    if(yh<HStartYear || yh>HEndYear)
+    {
+        //flag = 0;
+        YL = 0;
+    }
+    else
+    {
+        Dy = MonthMap[yh - HStartYear]/4096;  /* Mask 1111000000000000 */
+        b = MonthMap[yh - HStartYear];
+        b = b - Dy * 4096;
+        flag = b % 2;  /* Mask for the current month */
+        if(flag)
+            YL = 30;
+        else
+            YL = 29;
 
-      for(m = 2; m <= 12; m++)
-      {
-         flag = b % 2;  /* Mask for the current month */
-         if(flag)
-            Dy = 30;
-         else
-            Dy = 29;
-         b = (b - flag) / 2;
-         YL = YL + Dy;
-      }
-   }
-   return(YL);
+        for(m = 2; m <= 12; m++)
+        {
+            flag = b % 2;  /* Mask for the current month */
+            if(flag)
+                Dy = 30;
+            else
+                Dy = 29;
+            b = (b - flag) / 2;
+            YL = YL + Dy;
+        }
+    }
+    return(YL);
 }
 
 /****************************************************************************/
@@ -261,68 +273,68 @@ int HYearLength(int yh)
 /****************************************************************************/
 int G2H(sDate *mydate, int dg, int mg, int yg)
 {
-   int  yh2, mh2;
-   int  df;
-   int flag = 1;
-   long J;
-   double GJD, HJD;
-   sDate tmpdate;
-   sDate tmpdate2;
+    int  yh2, mh2;
+    int  df;
+    int flag = 1;
+    long J;
+    double GJD, HJD;
+    sDate tmpdate;
+    sDate tmpdate2;
 
-   GJD = GCalendarToJD(yg, mg, dg + 0.5);  /* find JD of Gdate */
+    GJD = GCalendarToJD(yg, mg, dg + 0.5);  /* find JD of Gdate */
 
-   /* estimate the Hdate that correspond to the Gdate */
-   JDToHCalendar(GJD, &tmpdate);  
+    /* estimate the Hdate that correspond to the Gdate */
+    JDToHCalendar(GJD, &tmpdate);
 
-   /* get the exact Julian Day */
-   HJD = HCalendarToJDA(tmpdate.year, tmpdate.month, tmpdate.day);
-   df = (int) (GJD - HJD);
-   tmpdate.day += df;
-   while(tmpdate.day > 30)
-   {
-      tmpdate.day -= HMonthLength(tmpdate.year, tmpdate.month);
-      tmpdate.month++;
-      if(tmpdate.month > 12)
-      {
-         tmpdate.year++;
-         tmpdate.month = 1;
-      }
-   }
-   if(tmpdate.day == 30)
-   {
-      yh2 = tmpdate.year;
-      mh2 = tmpdate.month + 1;
-      if(mh2 > 12)
-      {
-         yh2++;
-         mh2 = 1;
-      }
-      Hsub2G(&tmpdate2, mh2, yh2);
+    /* get the exact Julian Day */
+    HJD = HCalendarToJDA(tmpdate.year, tmpdate.month, tmpdate.day);
+    df = (int) (GJD - HJD);
+    tmpdate.day += df;
+    while(tmpdate.day > 30)
+    {
+        tmpdate.day -= HMonthLength(tmpdate.year, tmpdate.month);
+        tmpdate.month++;
+        if(tmpdate.month > 12)
+        {
+            tmpdate.year++;
+            tmpdate.month = 1;
+        }
+    }
+    if(tmpdate.day == 30)
+    {
+        yh2 = tmpdate.year;
+        mh2 = tmpdate.month + 1;
+        if(mh2 > 12)
+        {
+            yh2++;
+            mh2 = 1;
+        }
+        Hsub2G(&tmpdate2, mh2, yh2);
 
-      /* Make sure that the month is 30days if not make adjustment */
-      if(dg == tmpdate2.day)
-      {
-	 tmpdate.year = yh2;
-	 tmpdate.month = mh2;
-	 tmpdate.day = 1;
-      }
-   }
+        /* Make sure that the month is 30days if not make adjustment */
+        if(dg == tmpdate2.day)
+        {
+            tmpdate.year = yh2;
+            tmpdate.month = mh2;
+            tmpdate.day = 1;
+        }
+    }
 
-   J = (long) (GCalendarToJD(yg, mg, dg)+2);
-   mydate->weekday = J % 7;
-   mydate->to_numdays = 1;	/* this needs to be fixed !! */
-   mydate->year = tmpdate.year;
-   mydate->month = tmpdate.month;
-   mydate->day = tmpdate.day;
+    J = (long) (GCalendarToJD(yg, mg, dg)+2);
+    mydate->weekday = J % 7;
+    mydate->to_numdays = 1;	/* this needs to be fixed !! */
+    mydate->year = tmpdate.year;
+    mydate->month = tmpdate.month;
+    mydate->day = tmpdate.day;
 
-   /* Fill-in the structure with various nicities a user might need */
-   fill_datestruct(mydate, mydate->weekday, mg, mydate->month,
-				g_day, g_day_short, g_month, g_month_short,
-				h_day, h_day_short, h_month, h_month_short,
-				NULL, 0);
+    /* Fill-in the structure with various nicities a user might need */
+    fill_datestruct(mydate, mydate->weekday, mg, mydate->month,
+                    g_day, g_day_short, g_month, g_month_short,
+                    h_day, h_day_short, h_month, h_month_short,
+                    NULL, 0);
 //				h_events_table, sizeof(h_events_table));
 
-   return(flag);
+    return(flag);
 }
 
 /****************************************************************************/
@@ -337,48 +349,68 @@ int G2H(sDate *mydate, int dg, int mg, int yg)
 /****************************************************************************/
 int H2G(sDate *mydate, int dh, int mh, int yh)
 {
-   int found, yh1, mh1;
-   sDate tmpdate;
+    int found, yh1, mh1;
+    sDate tmpdate;
 
-   /* make sure values are within the allowed values */
-   if(dh > 30) { dh = 1;  mh++; }
-   if(dh < 1)  { dh = 1;  mh--; }
-   if(mh > 12) { mh = 1;  yh++; }
-   if(mh < 1)  { mh = 12; yh--; }
+    /* make sure values are within the allowed values */
+    if(dh > 30)
+    {
+        dh = 1;
+        mh++;
+    }
+    if(dh < 1)
+    {
+        dh = 1;
+        mh--;
+    }
+    if(mh > 12)
+    {
+        mh = 1;
+        yh++;
+    }
+    if(mh < 1)
+    {
+        mh = 12;
+        yh--;
+    }
 
-   /* find the date of the begining of the month */
-   found = Hsub2G(mydate, mh, yh);
-   mydate->day += dh - 1;
+    /* find the date of the begining of the month */
+    found = Hsub2G(mydate, mh, yh);
+    mydate->day += dh - 1;
 
-   /* Make sure that dates are within the correct values */
-   GDateAjust(mydate);
-   mydate->weekday += dh - 1;
-   mydate->weekday = mydate->weekday % 7;
+    /* Make sure that dates are within the correct values */
+    GDateAjust(mydate);
+    mydate->weekday += dh - 1;
+    mydate->weekday = mydate->weekday % 7;
 
-   /*find the date of the begining of the next month*/
-   if(dh == 30)
-   {
-      mh1 = mh + 1;
-      yh1 = yh;
-      if(mh1 > 12) {mh1 -= 12; yh1++;}
-      found = Hsub2G(&tmpdate, mh1, yh1);
-      /* Make sure that the month is 30days if not make adjustment */
-      if(mydate->day == tmpdate.day)
-      {
-	 mydate->year = tmpdate.year;
-	 mydate->month = tmpdate.month;
-	 mydate->day = 1;
-      }
-   }
+    /*find the date of the begining of the next month*/
+    if(dh == 30)
+    {
+        mh1 = mh + 1;
+        yh1 = yh;
+        if(mh1 > 12)
+        {
+            mh1 -= 12;
+            yh1++;
+        }
+        found = Hsub2G(&tmpdate, mh1, yh1);
+        /* Make sure that the month is 30days if not make adjustment */
+        if(mydate->day == tmpdate.day)
+        {
+            mydate->year = tmpdate.year;
+            mydate->month = tmpdate.month;
+            mydate->day = 1;
+        }
+    }
 
-   /* Fill-in the structure with various nicities a user might need */
-   fill_datestruct(mydate, mydate->weekday, mh, mydate->month,
-				h_day, h_day_short, h_month, h_month_short,
-				g_day, g_day_short, g_month, g_month_short,
-				NULL, 0);
+    /* Fill-in the structure with various nicities a user might need */
+    fill_datestruct(mydate, mydate->weekday, mh, mydate->month,
+                    h_day, h_day_short, h_month, h_month_short,
+                    g_day, g_day_short, g_month, g_month_short,
+                    NULL, 0);
 //				g_events_table, sizeof(g_events_table));
 
-   return(found);
+    return(found);
 }
 
 /****************************************************************************/
@@ -391,31 +423,31 @@ int H2G(sDate *mydate, int dh, int mh, int yh)
 /****************************************************************************/
 double JDToGCalendar(double JD, sDate *mydate)
 {
-   double A, B, F;
-   int alpha, C, E;
-   long D, Z;
+    double A, B, F;
+    int alpha, C, E;
+    long D, Z;
 
-   Z = (long)floor (JD + 0.5);
-   F = (JD + 0.5) - Z;
-   alpha = (int)((Z - 1867216.25) / 36524.25);
-   A = Z + 1 + alpha - alpha / 4;
-   B = A + 1524;
-   C = (int) ((B - 122.1) / 365.25);
-   D = (long) (365.25 * C);
-   E = (int)(((B - D) / 30.6001));
-   mydate->day =(int) (B - D - floor (30.6001 * E) + F);
-   if (E < 14)
-      mydate->month = E - 1;
-   else
-      mydate->month = E - 13;
-   if (mydate->month > 2)
-      mydate->year = C - 4716;
-   else
-      mydate->year = C - 4715;
+    Z = (long)floor (JD + 0.5);
+    F = (JD + 0.5) - Z;
+    alpha = (int)((Z - 1867216.25) / 36524.25);
+    A = Z + 1 + alpha - alpha / 4;
+    B = A + 1524;
+    C = (int) ((B - 122.1) / 365.25);
+    D = (long) (365.25 * C);
+    E = (int)(((B - D) / 30.6001));
+    mydate->day =(int) (B - D - floor (30.6001 * E) + F);
+    if (E < 14)
+        mydate->month = E - 1;
+    else
+        mydate->month = E - 13;
+    if (mydate->month > 2)
+        mydate->year = C - 4716;
+    else
+        mydate->year = C - 4715;
 
-   F = F * 24.0;
+    F = F * 24.0;
 
-   return(F);
+    return(F);
 }
 
 /****************************************************************************/
@@ -428,29 +460,29 @@ double JDToGCalendar(double JD, sDate *mydate)
 /****************************************************************************/
 double GCalendarToJD(int yy, int mm, double dd)
 {
-   /* It does not take care of 1582 correction assumes correct
-      calender from the past
-    */
-   int A, B, m, y;
-   double T1, T2, Tr;
+    /* It does not take care of 1582 correction assumes correct
+       calender from the past
+     */
+    int A, B, m, y;
+    double T1, T2, Tr;
 
-   if (mm > 2)
-   {
-      y = yy;
-      m = mm;
-   }
-   else
-   {
-      y = yy - 1;
-      m = mm + 12;
-   }
-   A = y / 100;
-   B = 2 - A + A / 4;
-   T1=ip (365.25 * (y + 4716));
-   T2=ip (30.6001 * (m + 1));
-   Tr=T1+ T2 + dd + B - 1524.5 ;
+    if (mm > 2)
+    {
+        y = yy;
+        m = mm;
+    }
+    else
+    {
+        y = yy - 1;
+        m = mm + 12;
+    }
+    A = y / 100;
+    B = 2 - A + A / 4;
+    T1=ip (365.25 * (y + 4716));
+    T2=ip (30.6001 * (m + 1));
+    Tr=T1+ T2 + dd + B - 1524.5 ;
 
-   return(Tr);
+    return(Tr);
 }
 
 /****************************************************************************/
@@ -463,21 +495,21 @@ double GCalendarToJD(int yy, int mm, double dd)
 /****************************************************************************/
 int GLeapYear(int year)
 {
-   int T = 0;
+    int T = 0;
 
-   if(year % 4 == 0)
-      T = 1;	/* leap_year = 1; */
+    if(year % 4 == 0)
+        T = 1;	/* leap_year = 1; */
 
-   if(year % 100 == 0)
-   {
-      /* years=100,200,300,500,... are not leap years */
-      T=0;
+    if(year % 100 == 0)
+    {
+        /* years=100,200,300,500,... are not leap years */
+        T=0;
 
-      /* years=400,800,1200,1600,2000,2400 are leap years */
-      if(year % 400 == 0) T = 1;
-   }
+        /* years=400,800,1200,1600,2000,2400 are leap years */
+        if(year % 400 == 0) T = 1;
+    }
 
-   return(T);
+    return(T);
 }
 
 /****************************************************************************/
@@ -491,68 +523,68 @@ int GLeapYear(int year)
 /****************************************************************************/
 void GDateAjust(sDate *mydate)
 {
-   int dys;
+    int dys;
 
-   /* Make sure that dates are within the correct values */
-   /*  Underflow  */
-   if(mydate->month < 1)  /* months underflow */
-   {
-      /* plus as the underflow months is negative */
-      mydate->month += 12;
-      mydate->year--;
-   }
+    /* Make sure that dates are within the correct values */
+    /*  Underflow  */
+    if(mydate->month < 1)  /* months underflow */
+    {
+        /* plus as the underflow months is negative */
+        mydate->month += 12;
+        mydate->year--;
+    }
 
-   if(mydate->day < 1)  /* days underflow */
-   {
-      /* month becomes the previous month */
-      mydate->month--;
-      /* number of days of the month less the underflow days
-         (it is plus as the sign of the day is negative)
-       */
-      mydate->day += gmonth[mydate->month];
-      if(mydate->month == 2)
-         mydate->day += GLeapYear(mydate->year);
-      if(mydate->month < 1)  /* months underflow */
-      {
-	 /* plus as the underflow months is negative */
-         mydate->month += 12;
-         mydate->year--;
-      }
-   }
+    if(mydate->day < 1)  /* days underflow */
+    {
+        /* month becomes the previous month */
+        mydate->month--;
+        /* number of days of the month less the underflow days
+           (it is plus as the sign of the day is negative)
+         */
+        mydate->day += gmonth[mydate->month];
+        if(mydate->month == 2)
+            mydate->day += GLeapYear(mydate->year);
+        if(mydate->month < 1)  /* months underflow */
+        {
+            /* plus as the underflow months is negative */
+            mydate->month += 12;
+            mydate->year--;
+        }
+    }
 
-   /* Overflow  */
-   if(mydate->month > 12)  /* months */
-   {
-      mydate->month -= 12;
-      mydate->year++;
-   }
+    /* Overflow  */
+    if(mydate->month > 12)  /* months */
+    {
+        mydate->month -= 12;
+        mydate->year++;
+    }
 
-   if(mydate->month == 2)
-      /* number of days in the current month */
-      dys = gmonth[mydate->month] + GLeapYear(mydate->year);
-   else
-      dys = gmonth[mydate->month];
-   if(mydate->day > dys)  /* days overflow */
-   {
-      mydate->day -= dys;
-      mydate->month++;
-      if(mydate->month == 2)
-      {
-         /* number of days in the current month */
-         dys = gmonth[mydate->month] + GLeapYear(mydate->year);
-         if(mydate->day > dys)
-         {
-            mydate->day -= dys;
-            mydate->month++;
-         }
-      }
-      if(mydate->month > 12)  /* months */
-      {
-         mydate->month -= 12;
-         mydate->year++;
-      }
-   }
-   mydate->to_numdays = dys;
+    if(mydate->month == 2)
+        /* number of days in the current month */
+        dys = gmonth[mydate->month] + GLeapYear(mydate->year);
+    else
+        dys = gmonth[mydate->month];
+    if(mydate->day > dys)  /* days overflow */
+    {
+        mydate->day -= dys;
+        mydate->month++;
+        if(mydate->month == 2)
+        {
+            /* number of days in the current month */
+            dys = gmonth[mydate->month] + GLeapYear(mydate->year);
+            if(mydate->day > dys)
+            {
+                mydate->day -= dys;
+                mydate->month++;
+            }
+        }
+        if(mydate->month > 12)  /* months */
+        {
+            mydate->month -= 12;
+            mydate->year++;
+        }
+    }
+    mydate->to_numdays = dys;
 }
 
 /****************************************************************************/
@@ -567,11 +599,11 @@ void GDateAjust(sDate *mydate)
 /****************************************************************************/
 int DayWeek(long JulianD)
 {
-   int Dy;
+    int Dy;
 
-   Dy = (JulianD + 1) % 7;
+    Dy = (JulianD + 1) % 7;
 
-   return(Dy);
+    return(Dy);
 }
 
 /****************************************************************************/
@@ -584,16 +616,16 @@ int DayWeek(long JulianD)
 /****************************************************************************/
 double HCalendarToJD(int yh, int mh, int dh)
 {
-   /* Estimating The JD for hijrah dates
-      this is an approximate JD for the given hijrah date
-    */
-   double md, yd;
+    /* Estimating The JD for hijrah dates
+       this is an approximate JD for the given hijrah date
+     */
+    double md, yd;
 
-   md = (mh - 1.0) * 29.530589;
-   yd = (yh - 1.0) * 354.367068 + md + dh - 1.0;
-   yd = yd + 1948439.0;  /*  add JD for 18/7/622 first Hijrah date */
+    md = (mh - 1.0) * 29.530589;
+    yd = (yh - 1.0) * 354.367068 + md + dh - 1.0;
+    yd = yd + 1948439.0;  /*  add JD for 18/7/622 first Hijrah date */
 
-   return(yd);
+    return(yd);
 }
 
 /****************************************************************************/
@@ -606,17 +638,25 @@ double HCalendarToJD(int yh, int mh, int dh)
 /****************************************************************************/
 void JDToHCalendar(double JD, sDate *mydate)
 {
-   /* Estimating the hijrah date from JD */
-   double md, yd;
+    /* Estimating the hijrah date from JD */
+    double md, yd;
 
-   yd = JD-1948439.0;  /*  subtract JD for 18/7/622 first Hijrah date*/
-   md = mod(yd, 354.367068);
-   mydate->day = mod(md + 0.5, 29.530589)+1;
-   mydate->month = (int) ((md/29.530589) + 1);
-   yd = yd - md;
-   mydate->year = (int) (yd/354.367068 + 1);
-   if(mydate->day > 30)   {mydate->day   -= 30; mydate->month++;}
-   if(mydate->month > 12) {mydate->month -= 12; mydate->year++;}
+    yd = JD-1948439.0;  /*  subtract JD for 18/7/622 first Hijrah date*/
+    md = mod(yd, 354.367068);
+    mydate->day = mod(md + 0.5, 29.530589)+1;
+    mydate->month = (int) ((md/29.530589) + 1);
+    yd = yd - md;
+    mydate->year = (int) (yd/354.367068 + 1);
+    if(mydate->day > 30)
+    {
+        mydate->day   -= 30;
+        mydate->month++;
+    }
+    if(mydate->month > 12)
+    {
+        mydate->month -= 12;
+        mydate->year++;
+    }
 }
 
 /****************************************************************************/
@@ -629,45 +669,45 @@ void JDToHCalendar(double JD, sDate *mydate)
 /****************************************************************************/
 void JDToHACalendar(double JD, int *yh, int *mh, int *dh)
 {
-   int df;
-   double HJD;
-   sDate tmpdate;
+    int df;
+    double HJD;
+    sDate tmpdate;
 
-   /* Estimate the Hdate that correspond to the Gdate */
-   JDToHCalendar(JD, &tmpdate);
-   /* get the exact Julian Day */
-   HJD  = HCalendarToJDA(tmpdate.year, tmpdate.month, tmpdate.day);
-   df   = (int) (JD + 0.5 - HJD);
-   tmpdate.day  += df;
-   while(tmpdate.day > 30)
-   {
-      tmpdate.day -= HMonthLength(tmpdate.year, tmpdate.month);
-      tmpdate.month++;
-      if(tmpdate.month > 12)
-      {
-	 tmpdate.year++;
-	 tmpdate.month = 1;
-      }
-   }
-   if(tmpdate.day == 30 &&
-      HMonthLength(tmpdate.year, tmpdate.month) < 30)
-   {
-      tmpdate.day = 1;
-      tmpdate.month++;
-   }
-   if(tmpdate.month > 12)
-   {
-      tmpdate.month = 1;
-      tmpdate.year++;
-   }
+    /* Estimate the Hdate that correspond to the Gdate */
+    JDToHCalendar(JD, &tmpdate);
+    /* get the exact Julian Day */
+    HJD  = HCalendarToJDA(tmpdate.year, tmpdate.month, tmpdate.day);
+    df   = (int) (JD + 0.5 - HJD);
+    tmpdate.day  += df;
+    while(tmpdate.day > 30)
+    {
+        tmpdate.day -= HMonthLength(tmpdate.year, tmpdate.month);
+        tmpdate.month++;
+        if(tmpdate.month > 12)
+        {
+            tmpdate.year++;
+            tmpdate.month = 1;
+        }
+    }
+    if(tmpdate.day == 30 &&
+            HMonthLength(tmpdate.year, tmpdate.month) < 30)
+    {
+        tmpdate.day = 1;
+        tmpdate.month++;
+    }
+    if(tmpdate.month > 12)
+    {
+        tmpdate.month = 1;
+        tmpdate.year++;
+    }
 
-/*
-   J = JD + 2;
-   *dayweek = J % 7;
- */
-   *yh = tmpdate.year;
-   *mh = tmpdate.month;
-   *dh = tmpdate.day;
+    /*
+       J = JD + 2;
+       *dayweek = J % 7;
+     */
+    *yh = tmpdate.year;
+    *mh = tmpdate.month;
+    *dh = tmpdate.day;
 }
 
 /**************************************************************************/
@@ -675,11 +715,11 @@ void JDToHACalendar(double JD, int *yh, int *mh, int *dh)
 /**************************************************************************/
 double ip(double x)
 {
-   double  tmp;
+    double  tmp;
 
-   modf(x, &tmp);
+    modf(x, &tmp);
 
-   return(tmp);
+    return(tmp);
 }
 
 /**************************************************************************/
@@ -688,17 +728,17 @@ double ip(double x)
 /**************************************************************************/
 int mod(double x, double y)
 {
-   int r;
-   double d;
+    int r;
+    double d;
 
-   d = x / y;
-   r = (int) d;
-   if(r < 0)
-      r--;
-   d = x - y * r;
-   r = (int) d;
+    d = x / y;
+    r = (int) d;
+    if(r < 0)
+        r--;
+    d = x - y * r;
+    r = (int) d;
 
-   return(r);
+    return(r);
 }
 
 /**************************************************************************/
@@ -706,16 +746,16 @@ int mod(double x, double y)
 /**************************************************************************/
 int IsValid(int yh, int mh, int dh)
 {
-   int valid = 1;
+    int valid = 1;
 
-   if((yh < HStartYear) || (yh > HEndYear))
-      valid = 0;
+    if((yh < HStartYear) || (yh > HEndYear))
+        valid = 0;
 
-   if( (mh < 1) || (mh > 12))
-      valid = 0;
+    if( (mh < 1) || (mh > 12))
+        valid = 0;
 
-   if( (dh < 1) || (dh > HMonthLength(yh, mh)) )
-      valid = 0;
+    if( (dh < 1) || (dh > HMonthLength(yh, mh)) )
+        valid = 0;
 
-   return(valid);
+    return(valid);
 }

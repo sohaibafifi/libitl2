@@ -28,26 +28,26 @@ extern "C" {
 #define RAD_TO_DEG(A) ((A) / (PI/180.0))
 
 
-    typedef struct
-    {
-        double jd;      /* Astronomical Julian day (for local time with Delta-t) */
-        double dec[3];  /* Declination */
-        double ra[3];   /* Right Ascensions */
-        double sid[3];  /* Apparent sidereal time */
-        double dra[3];  /* Delta Right Ascensions */
-        double rsum[3]; /* Sum of periodic values for radius vector R */
-    } Astro ;
+typedef struct
+{
+    double jd;      /* Astronomical Julian day (for local time with Delta-t) */
+    double dec[3];  /* Declination */
+    double ra[3];   /* Right Ascensions */
+    double sid[3];  /* Apparent sidereal time */
+    double dra[3];  /* Delta Right Ascensions */
+    double rsum[3]; /* Sum of periodic values for radius vector R */
+} Astro ;
 
-    /* Returns the astronomical Julian day (for local time with delta-t) */
-    double getJulianDay(const Date* date, const double gmt);
-    /* Fills the structure "astro" with a list of 3-day values, then checks and
-     * updates these values if cached. The variable "tastro/topAstro" holds the
-     * topocentric values of the same structure. */
-    void getAstroValuesByDay(const double julianDay, const Location* loc,
-                             Astro* astro, Astro* topAstro);
-    double getTransit(const double lon, const Astro* tastro);
-    double getSunrise(const Location* loc, const Astro* tastro);
-    double getSunset(const Location* loc, const Astro* tastro);
+/* Returns the astronomical Julian day (for local time with delta-t) */
+double getJulianDay(const Date* date, const double gmt);
+/* Fills the structure "astro" with a list of 3-day values, then checks and
+ * updates these values if cached. The variable "tastro/topAstro" holds the
+ * topocentric values of the same structure. */
+void getAstroValuesByDay(const double julianDay, const Location* loc,
+                         Astro* astro, Astro* topAstro);
+double getTransit(const double lon, const Astro* tastro);
+double getSunrise(const Location* loc, const Astro* tastro);
+double getSunset(const Location* loc, const Astro* tastro);
 
 #ifdef  __cplusplus
 }

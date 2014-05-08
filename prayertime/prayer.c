@@ -35,7 +35,8 @@ enum exmethods  { NONE_EX,
                   HALF_INVALID,
                   MIN_ALWAYS,
                   MIN_INVALID,
-                  GOOD_INVALID_SAME };
+                  GOOD_INVALID_SAME
+                };
 
 enum methods    { NONE,
                   EGYPT_SURVEY,
@@ -45,7 +46,8 @@ enum methods    { NONE,
                   MUSLIM_LEAGUE,
                   UMM_ALQURRA,
                   FIXED_ISHAA,
-                  EGYPT_NEW };
+                  EGYPT_NEW
+                };
 
 enum salatType  { FAJR,
                   SHUROOQ,
@@ -54,7 +56,8 @@ enum salatType  { FAJR,
                   MAGHRIB,
                   ISHAA,
                   IMSAAK,
-                  NEXTFAJR };
+                  NEXTFAJR
+                };
 
 static double getZuhr (double lon, const Astro* astro);
 static double getFajIsh (double Lat, double dec, double Ang);
@@ -111,7 +114,8 @@ static void getPrayerTimesByDay ( const Location* loc, const Method* conf,
 
     /* Calculate all prayer times as Base-10 numbers in Normal circumstances */
     /* Fajr */
-    if (fj == 99) {
+    if (fj == 99)
+    {
         tempPrayer[0] = 99;
         invalid = 1;
     }
@@ -124,7 +128,8 @@ static void getPrayerTimesByDay ( const Location* loc, const Method* conf,
     tempPrayer[2] = zu;
 
     /* Assr */
-    if (ar == 99) {
+    if (ar == 99)
+    {
         tempPrayer[3] = 99;
         invalid = 1;
     }
@@ -137,7 +142,8 @@ static void getPrayerTimesByDay ( const Location* loc, const Method* conf,
 
 
     /* Ishaa */
-    if (is == 99) {
+    if (is == 99)
+    {
         tempPrayer[5] = 99;
         invalid = 1;
     }
@@ -208,11 +214,13 @@ static void getPrayerTimesByDay ( const Location* loc, const Method* conf,
                 break;
 
             case LAT_INVALID:
-                if (tempPrayer[0] == 99) {
+                if (tempPrayer[0] == 99)
+                {
                     tempPrayer[0] = zu - exFj;
                     pt[0].isExtreme = 1;
                 }
-                if (tempPrayer[5] == 99) {
+                if (tempPrayer[5] == 99)
+                {
                     tempPrayer[5] = zu + exIs;
                     pt[5].isExtreme = 1;
                 }
@@ -283,11 +291,13 @@ static void getPrayerTimesByDay ( const Location* loc, const Method* conf,
                     pt[i].isExtreme = 1;
                 break;
             case GOOD_INVALID:
-                if (tempPrayer[0] == 99) {
+                if (tempPrayer[0] == 99)
+                {
                     tempPrayer[0] = exZu - exFj;
                     pt[0].isExtreme = 1;
                 }
-                if (tempPrayer[5] == 99) {
+                if (tempPrayer[5] == 99)
+                {
                     tempPrayer[5] = exZu + exIs;
                     pt[5].isExtreme = 1;
                 }
@@ -331,29 +341,35 @@ static void getPrayerTimesByDay ( const Location* loc, const Method* conf,
 
 
             if (conf->extreme == SEVEN_NIGHT_INVALID ||
-                conf->extreme == SEVEN_DAY_INVALID ||
-                conf->extreme == HALF_INVALID)
+                    conf->extreme == SEVEN_DAY_INVALID ||
+                    conf->extreme == HALF_INVALID)
             {
-                if (tempPrayer[0] == 99) {
+                if (tempPrayer[0] == 99)
+                {
                     if  (conf->extreme == HALF_INVALID)
                         tempPrayer[0] =  portion - (conf->fajrInv / 60.0);
                     else tempPrayer[0] = tempPrayer[1] - portion;
                     pt[0].isExtreme = 1;
                 }
-                if (tempPrayer[5] == 99) {
+                if (tempPrayer[5] == 99)
+                {
                     if  (conf->extreme == HALF_INVALID)
                         tempPrayer[5] = portion + (conf->ishaaInv / 60.0) ;
                     else tempPrayer[5] = tempPrayer[4] + portion;
                     pt[5].isExtreme = 1;
                 }
-            } else { /* for the always methods */
+            }
+            else     /* for the always methods */
+            {
 
-                if  (conf->extreme == HALF_ALWAYS) {
+                if  (conf->extreme == HALF_ALWAYS)
+                {
                     tempPrayer[0] = portion - (conf->fajrInv / 60.0);
                     tempPrayer[5] = portion + (conf->ishaaInv / 60.0) ;
                 }
 
-                else {
+                else
+                {
                     tempPrayer[0] = tempPrayer[1] - portion;
                     tempPrayer[5] = tempPrayer[4] + portion;
                 }
@@ -372,12 +388,14 @@ static void getPrayerTimesByDay ( const Location* loc, const Method* conf,
             break;
 
         case MIN_INVALID:
-            if (tempPrayer[0] == 99) {
+            if (tempPrayer[0] == 99)
+            {
                 exinterval = conf->fajrInv / 60.0;
                 tempPrayer[0] = tempPrayer[1] - exinterval;
                 pt[0].isExtreme = 1;
             }
-            if (tempPrayer[5] == 99) {
+            if (tempPrayer[5] == 99)
+            {
                 exinterval = conf->ishaaInv / 60.0;
                 tempPrayer[5] = tempPrayer[4] + exinterval;
                 pt[5].isExtreme = 1;
@@ -388,16 +406,18 @@ static void getPrayerTimesByDay ( const Location* loc, const Method* conf,
 
     /* Apply intervals if set */
     if (conf->extreme != MIN_INVALID &&
-        conf->extreme != HALF_INVALID &&
-        conf->extreme != HALF_ALWAYS)
+            conf->extreme != HALF_INVALID &&
+            conf->extreme != HALF_ALWAYS)
     {
-        if (conf->fajrInv != 0) {
+        if (conf->fajrInv != 0)
+        {
             if (tempPrayer[1] != 99)
                 tempPrayer[0] = tempPrayer[1] - (conf->fajrInv / 60.0);
             else tempPrayer[0] = 99;
         }
 
-        if (conf->ishaaInv != 0) {
+        if (conf->ishaaInv != 0)
+        {
             if (tempPrayer[4] != 99)
                 tempPrayer[5] = tempPrayer[4] + (conf->ishaaInv / 60.0);
             else tempPrayer[5] = 99;
@@ -408,7 +428,8 @@ static void getPrayerTimesByDay ( const Location* loc, const Method* conf,
      * Prayer structure conversion */
     if (type == IMSAAK || type == NEXTFAJR)
         base6hm(tempPrayer[0], loc, conf, &pt[0], type);
-    else {
+    else
+    {
         for (i=0; i<6; i++)
             base6hm(tempPrayer[i], loc, conf, &pt[i], i);
     }
@@ -429,14 +450,16 @@ static void base6hm(double bs, const Location* loc, const Method* conf,
     }
 
     /* Add offsets */
-    if (conf->offset == 1) {
+    if (conf->offset == 1)
+    {
         if (type == IMSAAK || type == NEXTFAJR)
             bs += (conf->offList[0] / 60.0);
         else  bs += (conf->offList[type] / 60.0);
     }
 
     /* Fix after minus offsets before midnight */
-    if (bs < 0) {
+    if (bs < 0)
+    {
         while (bs < 0)
             bs = 24 + bs;
     }
@@ -453,7 +476,8 @@ static void base6hm(double bs, const Location* loc, const Method* conf,
         min = (bs - floor(bs)) * 60;
         sec = 0;
 
-    } else if (conf->round == 2 || conf->round == 3)
+    }
+    else if (conf->round == 2 || conf->round == 3)
     {
         switch(type)
         {
@@ -464,14 +488,18 @@ static void base6hm(double bs, const Location* loc, const Method* conf,
         case ISHAA:
         case NEXTFAJR:
 
-            if (conf->round == 2) {
-                if (sec >= DEF_ROUND_SEC) {
+            if (conf->round == 2)
+            {
+                if (sec >= DEF_ROUND_SEC)
+                {
                     bs += 1/60.0;
                     min = (bs - floor(bs)) * 60;
                 }
-            } else if (conf->round == 3)
+            }
+            else if (conf->round == 3)
             {
-                if (sec >= AGGRESSIVE_ROUND_SEC) {
+                if (sec >= AGGRESSIVE_ROUND_SEC)
+                {
                     bs += 1/60.0;
                     min = (bs - floor(bs)) * 60;
                 }
@@ -507,16 +535,21 @@ void getImsaak (const Location* loc, const Method* conf, const Date* date,
 
     tmpConf = *conf;
 
-    if (conf->fajrInv != 0) {
+    if (conf->fajrInv != 0)
+    {
         if (conf->imsaakInv == 0)
             tmpConf.fajrInv += DEF_IMSAAK_INTERVAL;
         else tmpConf.fajrInv += conf->imsaakInv;
 
-    } else if (conf->imsaakInv != 0) {
+    }
+    else if (conf->imsaakInv != 0)
+    {
         /* use an inv even if al-Fajr is computed (Indonesia?) */
         tmpConf.offList[0] += (conf->imsaakInv * -1);
         tmpConf.offset = 1;
-    } else {
+    }
+    else
+    {
         tmpConf.fajrAng += conf->imsaakAng;
     }
 
@@ -534,7 +567,8 @@ void getImsaak (const Location* loc, const Method* conf, const Date* date,
         {
             tmpConf.offList[0] -= DEF_IMSAAK_INTERVAL;
             tmpConf.offset = 1;
-        } else
+        }
+        else
         {
             tmpConf.offList[0] -= conf->imsaakInv;
             tmpConf.offset = 1;
@@ -621,7 +655,8 @@ int getDayofYear(int year, int month, int day)
     int isLeap = ((year & 3) == 0) && ((year % 100) != 0
                                        || (year % 400) == 0);
 
-    static char dayList[2][13] = {
+    static char dayList[2][13] =
+    {
         {0,31,28,31,30,31,30,31,31,30,31,30,31},
         {0,31,29,31,30,31,30,31,31,30,31,30,31}
     };
@@ -676,7 +711,8 @@ void getMethod(int n, Method* conf)
     conf->imsaakAng = DEF_IMSAAK_ANGLE;
     conf->extreme = 5;
     conf->offset = 0;
-    for (i = 0; i < 6; i++) {
+    for (i = 0; i < 6; i++)
+    {
         conf->offList[i] = 0;
     }
 
@@ -740,8 +776,8 @@ double getNorthQibla(const Location* loc)
     double num, denom;
     num = sin (DEG_TO_RAD (loc->degreeLong) - DEG_TO_RAD (KAABA_LONG));
     denom = (cos (DEG_TO_RAD (loc->degreeLat)) * tan (DEG_TO_RAD (KAABA_LAT))) -
-        (sin (DEG_TO_RAD (loc->degreeLat)) * ((cos ((DEG_TO_RAD (loc->degreeLong) -
-                                                     DEG_TO_RAD(KAABA_LONG))))));
+            (sin (DEG_TO_RAD (loc->degreeLat)) * ((cos ((DEG_TO_RAD (loc->degreeLong) -
+                    DEG_TO_RAD(KAABA_LONG))))));
     return RAD_TO_DEG (atan2 (num, denom));
 
 }
