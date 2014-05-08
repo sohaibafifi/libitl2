@@ -85,9 +85,6 @@ static double getRiseSet (const Location* loc, const Astro* tastro, int type)
     rDec = DEG_TO_RAD(tastro->dec[1]);
     rLat = DEG_TO_RAD(loc->degreeLat);
 
-    //ra0=tastro->ra[0];
-    //ra2=tastro->ra[2];
-
     /* Compute the hour angle */
     part1 = sin(DEG_TO_RAD(CENTER_OF_SUN_ANGLE)) - (sin (rLat) * sin (rDec));
     part2 = cos (rLat) * cos (rDec);

@@ -258,12 +258,12 @@ h_absolute(int day,
            int year)
 {
     /* Computes the Islamic date from the absolute date. */
-    return(day				// days so far this month
-           + (29 * (month - 1))		// days so far...
-           + divf(month, 2)		//            ...this year
-           + (354 * (year - 1))		// non-leap days in prior years
-           + divf((3 + (11 * year)), 30)	// leap days in prior years
-           + HijriEpoch - 1);		// days before start of calendar
+    return(day				 /* days so far this month */
+           + (29 * (month - 1))		/* days so far... */
+           + divf(month, 2)		/*            ...this year */ 
+           + (354 * (year - 1))		/* non-leap days in prior years */
+           + divf((3 + (11 * year)), 30)	/* leap days in prior years */
+           + HijriEpoch - 1);		/* days before start of calendar */
 }
 
 
@@ -332,7 +332,7 @@ h_date(sDate *cdate,
                                  h_events_table, sizeof(h_events_table));
 
     return(error_fill);
-};
+}
 
 
 /* Determine the number of days in passed-in gregorian month/year */
@@ -375,11 +375,11 @@ g_absolute(int day,
     for (m = month - 1; m > 0; m--) /* days in prior months this year */
         N += g_numdays(m, year);
 
-    return(N				// days this year
-           + 365 * (year - 1)		// previous years days ignoring leap
-           + divf((year - 1), 4)		// Julian leap days before this year..
-           - divf((year - 1), 100)	// ..minus prior century years...
-           + divf((year - 1), 400));	// ..plus prior years divisible by 400
+    return(N				        /* days this year */
+           + 365 * (year - 1)		/* previous years days ignoring leap */
+           + divf((year - 1), 4)	/* Julian leap days before this year.. */
+           - divf((year - 1), 100)	/* ..minus prior century years... */
+           + divf((year - 1), 400));/* ..plus prior years divisible by 400 */
 }
 
 
@@ -439,4 +439,4 @@ g_date(sDate *cdate,
                                  NULL, 0);
 
     return(error_fill);
-};
+}

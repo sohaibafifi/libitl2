@@ -161,7 +161,6 @@ int HMonthLength(int yh, int mh)
 
     if(yh<HStartYear || yh>HEndYear)
     {
-        //flag = 0;
         Dy = 0;
     }
     else
@@ -196,7 +195,6 @@ int DayinYear(int yh, int mh, int dh)
 
     if(yh<HStartYear || yh>HEndYear)
     {
-        //flag = 0;
         DL = 0;
     }
     else
@@ -234,7 +232,6 @@ int HYearLength(int yh)
 
     if(yh<HStartYear || yh>HEndYear)
     {
-        //flag = 0;
         YL = 0;
     }
     else
@@ -332,7 +329,7 @@ int G2H(sDate *mydate, int dg, int mg, int yg)
                     g_day, g_day_short, g_month, g_month_short,
                     h_day, h_day_short, h_month, h_month_short,
                     NULL, 0);
-//				h_events_table, sizeof(h_events_table));
+/*				h_events_table, sizeof(h_events_table)); */
 
     return(flag);
 }

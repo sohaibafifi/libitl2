@@ -52,7 +52,7 @@ int main(void)
     month = t_ptr->tm_mon  + 1;
     year	 = t_ptr->tm_year + 1900;
 
-    // Convert using hijri code from meladi to hijri
+    /* Convert using hijri code from meladi to hijri */
     error_code = h_date(&mydate, day, month, year);
 
     if (error_code)
