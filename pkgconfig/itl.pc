@@ -1,0 +1,11 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: itl
+Description:  A library for Islamic calendar and prayer times
+Version: 2
+
+Libs: -L${libdir} -litl
+Cflags: -I${includedir}/itl
