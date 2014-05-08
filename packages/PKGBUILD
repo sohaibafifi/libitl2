@@ -1,0 +1,28 @@
+# Contributor: Sohaib Afifi <me@sohaibafifi.com>
+
+pkgname=libitl-git
+pkgver=0.7.1
+pkgrel=3
+pkgdesc="The Islamic tools library for prayer times and Hijri calculations"
+url="http://www.arabeyes.org/"
+arch=('i686' 'x86_64')
+license=('LGPL')
+depends=('glibc')
+conflicts=('libitl' 'libitl-svn')
+provides=('libitl')
+options=(!libtool)
+source=("$pkgname"::'git://github.com/sohaibafifi/libitl2.git')
+md5sums=(SKIP)
+
+build() {
+    cd "$srcdir/$pkgname"
+    mkdir build 
+    cd build
+    cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr/ ..
+    make 
+}
+
+package() {
+  cd "$srcdir/$pkgname/build"
+  make PREFIX=/usr DESTDIR="$pkgdir" install
+}
