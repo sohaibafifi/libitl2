@@ -4,8 +4,11 @@
 cmake_minimum_required(VERSION 2.6)
 PROJECT(itl)
 
-message("Installation target directory is: " ${CMAKE_INSTALL_PREFIX})
-message("To override this value, use 'cmake -DCMAKE_INSTALL_PREFIX:PATH=$DIR'")
+message("Installation target directory is: " ${CMAKE_INSTALL_PREFIX} )
+message("To override this value, use 'cmake -DCMAKE_INSTALL_PREFIX:PATH=$DIR'" )
+
+set( COMPILE_FLAGS "-ansi -pedantic -Wall -O2" )
+set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${COMPILE_FLAGS}" )
 
 # Specify header files
 set(HEADER_FILES

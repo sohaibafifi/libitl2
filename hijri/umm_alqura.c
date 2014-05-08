@@ -405,7 +405,7 @@ int H2G(sDate *mydate, int dh, int mh, int yh)
                     h_day, h_day_short, h_month, h_month_short,
                     g_day, g_day_short, g_month, g_month_short,
                     NULL, 0);
-//				g_events_table, sizeof(g_events_table));
+/*				g_events_table, sizeof(g_events_table)); */
 
     return(found);
 }
